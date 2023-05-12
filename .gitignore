@@ -1,0 +1,4 @@
+hashes/*.json
+node_modules
+run.bat
+changes.log
