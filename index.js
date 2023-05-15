@@ -48,16 +48,19 @@ x('https://www.rebohuurwoning.nl/nl/aanbod/?location=Apeldoorn&location_params=s
 
     r.forEach(d => paths.push(parse(d)))
 
-    fs.readdirSync('./hashes').forEach(file => {
-      var currentPath = `./hashes/${file}`
+    fs
+      .readdirSync('./hashes')
+      .filter(f => f != ".gitkeep")
+      .forEach(file => {
+        var currentPath = `./hashes/${file}`
 
-      if (!paths.includes(file)) {
-        var obj = JSON.parse(fs.readFileSync(currentPath, 'utf-8'))
-        send("Verwijderd:", obj.title, obj.price, obj.link)
-        fs.rmSync(currentPath)
-      }
-    })
-
+        if (!paths.includes(file)) {
+          var file = fs.readFileSync(currentPath, 'utf-8')
+          var obj = JSON.parse(file)
+          send("Verwijderd:", obj.title, obj.price, obj.link)
+          fs.rmSync(currentPath)
+        }
+      })
   })
   .catch(function (err) {
     console.log(err) 
